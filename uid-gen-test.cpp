@@ -3,11 +3,18 @@
 #include <string>
 #include <gtest/gtest.h>
 
-TEST(UID, UID_is_generated_within_length_limit) {
+using ::testing::MatchesRegex;
+using ::testing::HasSubstr;
+
+TEST(UID, UID_generated_has_organization_prefix) {
   std::string uid = uidgen();
-  ASSERT_TRUE(uid.length() > 0);
+  ASSERT_THAT(uid, HasSubstr("1.4.444.90004.223."));
 }
 
+TEST(UID, UID_generated_has_expected_suffix) {
+  std::string uid = uidgen();
+  ASSERT_THAT(uid, MatchesRegex("."));
+}
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
